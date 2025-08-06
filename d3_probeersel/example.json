@@ -1,0 +1,39 @@
+{
+  "circles": [
+    {
+      "id": 1,
+      "r": 40,
+      "cx": 50,
+      "cy": 50,
+      "color": "red"
+    },
+    {
+      "id": 2,
+      "r": 40,
+      "cx": 150,
+      "cy": 50,
+      "color": "blue"
+    },
+    {
+      "id": 3,
+      "r": 40,
+      "cx": 150,
+      "cy": 150,
+      "color": "yellow"
+    }
+  ],
+  "links": [
+    {
+      "id": 4,
+      "from": 1,
+      "to": 2,
+      "color": "black"
+    },
+    {
+      "id": 5,
+      "from": 2,
+      "to": 3,
+      "color": "black"
+    }
+  ]
+}

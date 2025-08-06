@@ -1,0 +1,63 @@
+vocabulary V_draw_types{
+    type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
+    type key ⊆  ℤ
+    type color ≜ constructed from {Black, Blue, Brown,Red,Green, SlateGrey, Snow, SpringGreen,
+    SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White,
+    WhiteSmoke, Yellow, YellowGreen}
+
+    type width ⊆ ℤ
+    type height ⊆ ℤ
+    type order ⊆ ℤ
+
+}
+vocabulary V_draw{
+    import V_draw_types
+    d3_width : ()→width
+    d3_height: ()→height
+    d3_type : partial key → shape
+    d3_x : partial key → width
+    d3_y : partial key → height
+    d3_color : partial key → color
+    d3_order : partial key → order
+    d3_circ_r : partial key → width
+    d3_rect_width : partial key → width
+    d3_rect_height : partial key → height
+
+    d3_link_width : partial key → width
+    d3_link_from : partial key → key
+    d3_link_to : partial key → key
+    //d3_node(key)
+    //d3_isFixed(key)
+}
+
+
+vocabulary V{
+    type Colour
+    type Node                // a country on the map
+    edge: Node ⨯ Node → 𝔹    // Country X and Y are neighbors
+    colouring: Node → Colour // The color of X is Y
+}
+
+vocabulary V_combination{
+    import V
+    import V_draw
+}
+
+theory T_draw : V_combination{
+
+}
+
+
+theory T:V{
+    ∀ n, m ∈ Node: edge(n, m) ⇒ colouring(n) ≠ colouring(m).
+}
+
+structure S:V{
+    Colour ≜ {blue, red, green, yellow}.
+    Node ≜ {A, B, C}.
+    edge ≜ {(A, B), (B,C)}.
+}
+
+procedure main() {
+    pretty_print(model_expand(T, S))
+}
