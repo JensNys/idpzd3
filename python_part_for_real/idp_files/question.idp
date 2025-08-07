@@ -1,0 +1,6 @@
+
+    type T1
+    type T2
+    //type Tboth ≜ contains T1,T2
+    //type Tboth ⊆ T1,T2
+    //type Tboth ≜ constructed from {T1,T2}

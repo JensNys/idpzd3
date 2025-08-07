@@ -41,4 +41,5 @@
       "color": "black"
     }
   ]
+  ,"rects":[{"id":6,"x":300,"y":50,"width":100,"height":200,"color":"red"}]
 }

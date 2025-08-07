@@ -13,7 +13,7 @@ async function draw(){
   // ],links:[
   //     {id:4,from:1,to:2,color:"black"},
   //     {id:5,from:2,to:3,color:"black"}
-  // ]}
+  // ],rects:[{id:6,x:300,y:50,width:100,height:200,color:"blue"}]}
   
   let svg = d3.selectAll('svg')//.append("p").text("boe");
   .data([data.svg])
@@ -48,7 +48,20 @@ async function draw(){
       .attr("cy", d => d.cy)
       .attr("r", d => d.r)
       .attr("fill",d=>d.color);
+
+
+  
+  svg.selectAll("rect")
+      .data(data.rects)
+      .join("rect")
+      .attr('x', d=>d.x)
+      .attr('y', d=>d.y)
+      .attr('width', d=>d.width)
+      .attr('height', d=>d.height)
+      .attr('fill', d=>d.color)
 }
+
+
 
 draw();
 
