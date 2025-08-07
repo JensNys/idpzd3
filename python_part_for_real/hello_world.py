@@ -10,6 +10,7 @@ def to_dictionary(structure,assignments):
     d3_dict['svg'] = svg_entry
     d3_dict['circles']=[]
     d3_dict['links']=[]
+    d3_dict['rects']=[]
     keys = structure.interpretations['key'].enumeration.tuples;
 
     for key in keys:
@@ -22,7 +23,6 @@ def to_dictionary(structure,assignments):
                 circle_entry["r"] = int(assignments["d3_circ_r("+key.code+")"].value.number)
                 circle_entry["color"] = assignments["d3_color("+key.code+")"].value.code
 
-                print(circle_entry)
                 d3_dict['circles'].append(circle_entry)
             case "link":
                 link_entry = {}
@@ -32,6 +32,15 @@ def to_dictionary(structure,assignments):
                 link_entry["color"] = assignments["d3_color("+key.code+")"].value.code
 
                 d3_dict['links'].append(link_entry)
+            case "rect":
+                rect_entry = {}
+                rect_entry["id"] = int(key.code)
+                rect_entry["x"] = int(assignments["d3_x("+key.code+")"].value.number)
+                rect_entry["y"] = int(assignments["d3_y("+key.code+")"].value.number)
+                rect_entry["width"] = int(assignments["d3_rect_width("+key.code+")"].value.number)
+                rect_entry["height"] = int(assignments["d3_rect_height("+key.code+")"].value.number)
+                rect_entry["color"] = assignments["d3_color("+key.code+")"].value.code
+                d3_dict['rects'].append(rect_entry)
 
 
     return d3_dict

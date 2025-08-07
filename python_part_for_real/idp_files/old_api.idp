@@ -1,5 +1,9 @@
 //het probleem hier is dat partiele functies precies moeilijk doen.
 vocabulary V_draw{
+
+
+
+
     type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
     type key ⊆  ℤ
     type color ≜ constructed from {black, blue, Brown,red,Green, SlateGrey, Snow, SpringGreen,
@@ -17,8 +21,8 @@ vocabulary V_draw{
     d3_color : partial key → color
     //d3_order : partial key → order
     d3_circ_r : partial key → width
-    //d3_rect_width : partial key → width
-    //d3_rect_height : partial key → height
+    d3_rect_width : partial key → width
+    d3_rect_height : partial key → height
 
     d3_link_width : partial key → width
     d3_link_from : partial key → key
@@ -32,7 +36,7 @@ theory T_draw:V_draw{
     d3_height()=300.
 
     //circles
-    ∀c ∈ dom_d3_type: d3_type(c)=circ => dom_d3_circ_r(c) & d3_circ_r(c)=40.
+    ∀c ∈ dom_d3_type: d3_type(c)=circ ⇒ dom_d3_circ_r(c) ∧ d3_circ_r(c)=40.
 
     (key(1) ∧ dom_d3_type(1)) ∧ d3_type(1)=circ.
     (key(1) ∧ dom_d3_x(1)) ∧ d3_x(1)=50.
@@ -65,6 +69,14 @@ theory T_draw:V_draw{
     (key(5) ∧ dom_d3_link_to(5)) ∧ d3_link_to(5)=3.
     (key(5) ∧ dom_d3_color(5)) ∧ d3_color(5)=black.
 
+    //rectangle
+    (key(6) ∧ dom_d3_type(6)) ∧ d3_type(6)=rect.
+    (key(6) ∧ dom_d3_x(6)) ∧ d3_x(6)=300.
+    (key(6) ∧ dom_d3_y(6)) ∧ d3_y(6)=50.
+    (key(6) ∧ dom_d3_rect_width(6)) ∧ d3_rect_width(6)=100.
+    (key(6) ∧ dom_d3_rect_height(6)) ∧ d3_rect_height(6)=200.
+    (key(6) ∧ dom_d3_color(6)) ∧ d3_color(6)=red.
+
 
 
 }
@@ -72,7 +84,7 @@ theory T_draw:V_draw{
 structure S_draw:V_draw{
     width ≜ {1..1000}.
     height ≜ {1..1000}.
-    key ≜ {1..5}.
+    key ≜ {1..6}.
 }
 
 procedure main(){
