@@ -58,11 +58,12 @@ theory T_draw:V_draw{
     (key(4) ∧ dom_d3_type(4))  ∧ d3_type(4)=link.
     (key(4) ∧ dom_d3_link_from(4)) ∧ d3_link_from(4)=1.
     (key(4) ∧ dom_d3_link_to(4)) ∧ d3_link_to(4)=2.
-
+    (key(4) ∧ dom_d3_color(4)) ∧ d3_color(4)=Black.
 
     (key(5) ∧ dom_d3_type(5))  ∧ d3_type(5)=link.
     (key(5) ∧ dom_d3_link_from(5)) ∧ d3_link_from(5)=2.
     (key(5) ∧ dom_d3_link_to(5)) ∧ d3_link_to(5)=3.
+    (key(5) ∧ dom_d3_color(5)) ∧ d3_color(5)=Black.
 
 
 
