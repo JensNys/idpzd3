@@ -20,6 +20,7 @@ def to_dictionary(structure,assignments):
                 circle_entry["cx"] = int(assignments["d3_x("+key.code+")"].value.number)
                 circle_entry["cy"] = int(assignments["d3_y("+key.code+")"].value.number)
                 circle_entry["r"] = int(assignments["d3_circ_r("+key.code+")"].value.number)
+                circle_entry["color"] = assignments["d3_color("+key.code+")"].value.code
 
                 print(circle_entry)
                 d3_dict['circles'].append(circle_entry)
@@ -28,7 +29,7 @@ def to_dictionary(structure,assignments):
                 link_entry["id"] = int(key.code)
                 link_entry["from"] = int(assignments["d3_link_from(" + key.code + ")"].value.number)
                 link_entry["to"] = int(assignments["d3_link_to(" + key.code + ")"].value.number)
-
+                link_entry["color"] = assignments["d3_color("+key.code+")"].value.code
 
                 d3_dict['links'].append(link_entry)
 

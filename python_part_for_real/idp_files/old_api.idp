@@ -2,9 +2,9 @@
 vocabulary V_draw{
     type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
     type key ⊆  ℤ
-    type color ≜ constructed from {Black, Blue, Brown,Red,Green, SlateGrey, Snow, SpringGreen,
+    type color ≜ constructed from {black, blue, Brown,red,Green, SlateGrey, Snow, SpringGreen,
     SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White,
-    WhiteSmoke, Yellow, YellowGreen}
+    WhiteSmoke, yellow, YellowGreen}
 
     type width ⊆ ℤ
     type height ⊆ ℤ
@@ -37,19 +37,19 @@ theory T_draw:V_draw{
     (key(1) ∧ dom_d3_type(1)) ∧ d3_type(1)=circ.
     (key(1) ∧ dom_d3_x(1)) ∧ d3_x(1)=50.
     (key(1) ∧ dom_d3_y(1)) ∧ d3_y(1)=50.
-    (key(1) ∧ dom_d3_color(1)) ∧ d3_color(1)=Red.
+    (key(1) ∧ dom_d3_color(1)) ∧ d3_color(1)=red.
 
 
 
     (key(2) ∧ dom_d3_type(2)) ∧ d3_type(2)=circ.
     (key(2) ∧ dom_d3_x(2)) ∧ d3_x(2)=150.
     (key(2) ∧ dom_d3_y(2)) ∧ d3_y(2)=50.
-    (key(2) ∧ dom_d3_color(2)) ∧ d3_color(2)=Blue.
+    (key(2) ∧ dom_d3_color(2)) ∧ d3_color(2)=blue.
 
     (key(3)∧ dom_d3_type(3)) ∧ d3_type(3)=circ.
     (key(3) ∧ dom_d3_x(3)) ∧ d3_x(3)=150.
     (key(3) ∧ dom_d3_y(3)) ∧ d3_y(3)=150.
-    (key(3) ∧ dom_d3_color(3)) ∧ d3_color(3)=Yellow.
+    (key(3) ∧ dom_d3_color(3)) ∧ d3_color(3)=yellow.
 
 
 
@@ -58,12 +58,12 @@ theory T_draw:V_draw{
     (key(4) ∧ dom_d3_type(4))  ∧ d3_type(4)=link.
     (key(4) ∧ dom_d3_link_from(4)) ∧ d3_link_from(4)=1.
     (key(4) ∧ dom_d3_link_to(4)) ∧ d3_link_to(4)=2.
-    (key(4) ∧ dom_d3_color(4)) ∧ d3_color(4)=Black.
+    (key(4) ∧ dom_d3_color(4)) ∧ d3_color(4)=black.
 
     (key(5) ∧ dom_d3_type(5))  ∧ d3_type(5)=link.
     (key(5) ∧ dom_d3_link_from(5)) ∧ d3_link_from(5)=2.
     (key(5) ∧ dom_d3_link_to(5)) ∧ d3_link_to(5)=3.
-    (key(5) ∧ dom_d3_color(5)) ∧ d3_color(5)=Black.
+    (key(5) ∧ dom_d3_color(5)) ∧ d3_color(5)=black.
 
 
 
