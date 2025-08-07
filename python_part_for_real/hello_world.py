@@ -44,14 +44,9 @@ def make_json(structure,assignments):
 
 
 
-
-
-
-
-
 print("imports finished")
 
-Kb = IDP.from_file('old_api.idp')
+Kb = IDP.from_file('idp_files/old_api.idp')
 T_draw,V_draw,S_draw = Kb.get_blocks("T_draw,V_draw,S_draw")
 
 # mx = model_expand(T_draw, S_draw)
@@ -63,8 +58,12 @@ theory = Theory(T_draw,S_draw)
 print("loop")
 for model in theory.expand(1):
     result = make_json(S_draw, model)
-    print(result)
 
-# for model in model_expand(T_draw,S_draw):
-#     breakpoint()
 
+    with open("out/visualisation.json", "w") as f:
+      f.write(result)
+    with open("out/visualisation.json") as f:
+      print(f.read())
+
+# run http server http-server &
+# run firefox http:localhost:8080/index.html
