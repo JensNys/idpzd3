@@ -1,0 +1,58 @@
+vocabulary V_draw{
+    type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
+    type Key := constructed from {key(ℤ)}
+    type color ≜ constructed from {Black, Blue, Brown,Red,Green, SlateGrey, Snow, SpringGreen,
+    SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White,
+    WhiteSmoke, Yellow, YellowGreen}
+
+    type width ⊆ ℤ
+    type height ⊆ ℤ
+    //type order ⊆ ℤ
+    d3_width : ()→width
+    d3_height: ()→height
+    d3_type :partial key → shape
+    d3_x : partial key → width
+    d3_y : partial key → height
+    d3_color : partial key → color
+    //d3_order : partial key → order
+    d3_circ_r : partial key → width
+    d3_rect_width : partial key → width
+    d3_rect_height : partial key → height
+
+    d3_link_width : partial key → width
+    d3_link_from : partial key → key
+    d3_link_to : partial key → key
+    //d3_node(key)
+    //d3_isFixed(key)
+}
+
+theory T_draw:V_draw{
+    d3_width()=800.
+    d3_height()=300.
+
+    //circles
+
+    d3_type(key(1))=circ.
+    dom_d3_x(key(1)) & d3_x(1)=150.
+
+
+
+    key(2)  ∧ d3_type(2)=circ.
+    key(3)  ∧d3_type(3)=circ.
+
+    key(4)  ∧ d3_type(4)=link.
+    key(5)  ∧d3_type(5)=link.
+
+
+}
+
+structure S_draw:V_draw{
+    width ≜ {1..1000}.
+    height ≜ {1..1000}.
+    key ≜ {1..5}.
+}
+
+procedure main(){
+
+    pretty_print(model_expand(T_draw, S_draw))
+}

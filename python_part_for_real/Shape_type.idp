@@ -1,0 +1,57 @@
+Het probleem hier is dat er geen superset van Circle gevonden wordt.
+vocabulary V_draw {
+    type Time ⊆ ℤ
+    type Width <: Int
+    type Height <: Int
+
+    type Key ⊆ ℤ
+
+
+    type Color := constructed from {Black, Blue, Brown,Red,Green, SlateGrey, Snow, SpringGreen,
+    SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White,
+    WhiteSmoke, Yellow, YellowGreen}
+
+
+    type Shape := constructed from {Circle(Width,Height, Color, Width),Link(Circle,Circle)}
+    //type Link := constructed from {}
+
+
+    d3_width : ()→Width
+    d3_height: ()→Height
+    d3_shape : Key → Shape
+    d3_x : Key → Width
+    d3_y : Key → Height
+    d3_color : Key → Color
+    d3_circ_r : Key → Width
+
+    d3_link_from : Link → Key
+    d3_link_to : Link → Key
+
+    //d3_node(key)
+    //d3_isFixed(key)
+}
+
+theory T_draw :V_draw{
+    d3_width()=800.
+    d3_height()=300.
+
+    //circles
+    shape(1)=Circle(1,50,50,Blue,40).
+    shape(2)=Circle(2,150,50,Blue,40).
+    shape(3)=Circle(2,150,50,Blue,40).
+
+    //links
+    shape(4)=Link(1,2).
+    shape(5)=Link(2,3).
+}
+
+structure S_draw:V_draw{
+    Key ≜ {1,2,3,4,5}.
+    Width:={1..1000}.
+    Height:={1..1000}.
+}
+
+
+procedure main() {
+    pretty_print(model_expand(T_draw, S_draw))
+}

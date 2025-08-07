@@ -4,23 +4,23 @@ async function draw(){
 
 
   
-  //const data = await d3.json("example.json");
-  //
-  data = {svg:{id:0,width:800,height:400},
-    circles:[{id:1, r: 40,cx:50,cy:50,color:"red"},
-      {id:2, r: 40,cx:150,cy:50,color:"blue"},
-      {id:3, r: 40,cx:150,cy:150,color:"yellow"},
-  ],links:[
-      {id:4,from:1,to:2,color:"black"},
-      {id:5,from:2,to:3,color:"black"}
-  ]}
+  const data = await d3.json("example.json");
+  
+  // data = {svg:{id:0,width:800,height:400},
+  //   circles:[{id:1, r: 40,cx:50,cy:50,color:"red"},
+  //     {id:2, r: 40,cx:150,cy:50,color:"blue"},
+  //     {id:3, r: 40,cx:150,cy:150,color:"yellow"},
+  // ],links:[
+  //     {id:4,from:1,to:2,color:"black"},
+  //     {id:5,from:2,to:3,color:"black"}
+  // ]}
   
   let svg = d3.selectAll('svg')//.append("p").text("boe");
   .data([data.svg])
   .join("svg")
-  .attr('width', d=>d.width ?? 600)
-  .attr('height',d=>d.height ?? 300)
-  .attr('id',d=>d.id ?? 0),
+  .attr('width', d=>d?.width ?? 600)
+  .attr('height',d=>d?.height ?? 300)
+  .attr('id',d=>d?.id ?? 0),
   margin = { top: 50, right: 50, bottom: 50, left: 50 };
 
   

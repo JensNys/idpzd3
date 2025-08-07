@@ -1,0 +1,80 @@
+//het probleem hier is dat partiele functies precies moeilijk doen.
+vocabulary V_draw{
+    type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
+    type key ⊆  ℤ
+    type color ≜ constructed from {Black, Blue, Brown,Red,Green, SlateGrey, Snow, SpringGreen,
+    SteelBlue, Tan, Teal, Thistle, Tomato, Turquoise, Violet, Wheat, White,
+    WhiteSmoke, Yellow, YellowGreen}
+
+    type width ⊆ ℤ
+    type height ⊆ ℤ
+    //type order ⊆ ℤ
+    d3_width : ()→width
+    d3_height: ()→height
+    d3_type :partial key → shape
+    d3_x : partial key → width
+    d3_y : partial key → height
+    d3_color : partial key → color
+    //d3_order : partial key → order
+    d3_circ_r : partial key → width
+    //d3_rect_width : partial key → width
+    //d3_rect_height : partial key → height
+
+    d3_link_width : partial key → width
+    d3_link_from : partial key → key
+    d3_link_to : partial key → key
+    //d3_node(key)
+    //d3_isFixed(key)
+}
+
+theory T_draw:V_draw{
+    d3_width()=800.
+    d3_height()=300.
+
+    //circles
+    ∀c ∈ dom_d3_type: d3_type(c)=circ => dom_d3_circ_r(c) & d3_circ_r(c)=40.
+
+    (key(1) ∧ dom_d3_type(1)) ∧ d3_type(1)=circ.
+    (key(1) ∧ dom_d3_x(1)) ∧ d3_x(1)=50.
+    (key(1) ∧ dom_d3_y(1)) ∧ d3_y(1)=50.
+    (key(1) ∧ dom_d3_color(1)) ∧ d3_color(1)=Red.
+
+
+
+    (key(2) ∧ dom_d3_type(2)) ∧ d3_type(2)=circ.
+    (key(2) ∧ dom_d3_x(2)) ∧ d3_x(2)=150.
+    (key(2) ∧ dom_d3_y(2)) ∧ d3_y(2)=50.
+    (key(2) ∧ dom_d3_color(2)) ∧ d3_color(2)=Blue.
+
+    (key(3)∧ dom_d3_type(3)) ∧ d3_type(3)=circ.
+    (key(3) ∧ dom_d3_x(3)) ∧ d3_x(3)=150.
+    (key(3) ∧ dom_d3_y(3)) ∧ d3_y(3)=150.
+    (key(3) ∧ dom_d3_color(3)) ∧ d3_color(3)=Yellow.
+
+
+
+
+    //links
+    (key(4) ∧ dom_d3_type(4))  ∧ d3_type(4)=link.
+    (key(4) ∧ dom_d3_link_from(4)) ∧ d3_link_from(4)=1.
+    (key(4) ∧ dom_d3_link_to(4)) ∧ d3_link_to(4)=2.
+
+
+    (key(5) ∧ dom_d3_type(5))  ∧ d3_type(5)=link.
+    (key(5) ∧ dom_d3_link_from(5)) ∧ d3_link_from(5)=2.
+    (key(5) ∧ dom_d3_link_to(5)) ∧ d3_link_to(5)=3.
+
+
+
+}
+
+structure S_draw:V_draw{
+    width ≜ {1..1000}.
+    height ≜ {1..1000}.
+    key ≜ {1..5}.
+}
+
+procedure main(){
+
+    pretty_print(model_expand(T_draw, S_draw))
+}
