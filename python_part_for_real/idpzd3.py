@@ -3,6 +3,15 @@ from idp_engine.Run import model_expand, pretty_print
 import json
 import os
 import time
+
+idp_file = "idp_files/old_api.idp"
+
+
+
+
+
+
+
 """
 function that returns the elements that are in the assignments that starts
 
@@ -69,7 +78,7 @@ def make_json(structure,assignments):
     return json.dumps(d3_dict)
 
 def show_file():
-    port = "8085"
+    port = "8086"
     # Start the server in the background and capture its PID
     os.system(f"python3 -m http.server {port} & echo $! > server_pid.txt")
     # Give it a moment to start
@@ -85,15 +94,16 @@ def show_file():
     os.remove("server_pid.txt")
 
 
+
+
 print("imports finished")
 
-Kb = IDP.from_file('idp_files/old_api_combined.idp')
+Kb = IDP.from_file(idp_file)
 T_draw,V_draw,S_draw = Kb.get_blocks("T_draw,V_draw,S_draw")
 
 # mx = model_expand(T_draw, S_draw)
 # for m in mx:
 #     print(m)
-#
 
 print("make theory")
 theory = Theory(T_draw,S_draw)
