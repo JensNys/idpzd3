@@ -1,7 +1,23 @@
 from idp_engine import Theory, IDP
 from idp_engine.Run import model_expand, pretty_print
 import json
+import os
 
+"""
+function that returns the elements that are in the assignments that starts
+
+
+
+examples: if there is a set in the vocabulary my_set = {A,B,C} then assignments contains my_set(A),my_set(B),my_set(C)
+this function returns ['A','B','C']
+
+"""
+def get_set_from_assignment(set_name,assignments):
+    result = []
+    for element in assignments:
+        if element.startswith(set_name+"(") and assignments[element].value.code == 'true':
+            result.append(element.replace(set_name,"").replace("(","").replace(")",""))
+    return result
 
 def to_dictionary(structure,assignments):
     d3_dict = {}
@@ -11,35 +27,38 @@ def to_dictionary(structure,assignments):
     d3_dict['circles']=[]
     d3_dict['links']=[]
     d3_dict['rects']=[]
-    keys = structure.interpretations['key'].enumeration.tuples;
 
-    for key in keys:
-        match assignments["d3_type("+key.code+")"].value.name:
+    valid_keys = get_set_from_assignment("dom_d3_type",assignments)
+    print(valid_keys)
+
+    
+    for key in valid_keys:
+        match assignments["d3_type("+key+")"].value.name:
             case "circ":
                 circle_entry = {}
-                circle_entry["id"] = int(key.code)
-                circle_entry["cx"] = int(assignments["d3_x("+key.code+")"].value.number)
-                circle_entry["cy"] = int(assignments["d3_y("+key.code+")"].value.number)
-                circle_entry["r"] = int(assignments["d3_circ_r("+key.code+")"].value.number)
-                circle_entry["color"] = assignments["d3_color("+key.code+")"].value.code
+                circle_entry["id"] = int(key)
+                circle_entry["cx"] = int(assignments["d3_x("+key+")"].value.number)
+                circle_entry["cy"] = int(assignments["d3_y("+key+")"].value.number)
+                circle_entry["r"] = int(assignments["d3_circ_r("+key+")"].value.number)
+                circle_entry["color"] = assignments["d3_color("+key+")"].value.code
 
                 d3_dict['circles'].append(circle_entry)
             case "link":
                 link_entry = {}
-                link_entry["id"] = int(key.code)
-                link_entry["from"] = int(assignments["d3_link_from(" + key.code + ")"].value.number)
-                link_entry["to"] = int(assignments["d3_link_to(" + key.code + ")"].value.number)
-                link_entry["color"] = assignments["d3_color("+key.code+")"].value.code
+                link_entry["id"] = int(key)
+                link_entry["from"] = int(assignments["d3_link_from(" + key + ")"].value.number)
+                link_entry["to"] = int(assignments["d3_link_to(" + key + ")"].value.number)
+                link_entry["color"] = assignments["d3_color("+key+")"].value.code
 
                 d3_dict['links'].append(link_entry)
             case "rect":
                 rect_entry = {}
-                rect_entry["id"] = int(key.code)
-                rect_entry["x"] = int(assignments["d3_x("+key.code+")"].value.number)
-                rect_entry["y"] = int(assignments["d3_y("+key.code+")"].value.number)
-                rect_entry["width"] = int(assignments["d3_rect_width("+key.code+")"].value.number)
-                rect_entry["height"] = int(assignments["d3_rect_height("+key.code+")"].value.number)
-                rect_entry["color"] = assignments["d3_color("+key.code+")"].value.code
+                rect_entry["id"] = int(key)
+                rect_entry["x"] = int(assignments["d3_x("+key+")"].value.number)
+                rect_entry["y"] = int(assignments["d3_y("+key+")"].value.number)
+                rect_entry["width"] = int(assignments["d3_rect_width("+key+")"].value.number)
+                rect_entry["height"] = int(assignments["d3_rect_height("+key+")"].value.number)
+                rect_entry["color"] = assignments["d3_color("+key+")"].value.code
                 d3_dict['rects'].append(rect_entry)
 
 
@@ -56,7 +75,7 @@ def make_json(structure,assignments):
 
 print("imports finished")
 
-Kb = IDP.from_file('idp_files/old_api.idp')
+Kb = IDP.from_file('idp_files/old_api_combined.idp')
 T_draw,V_draw,S_draw = Kb.get_blocks("T_draw,V_draw,S_draw")
 
 # mx = model_expand(T_draw, S_draw)
@@ -67,6 +86,7 @@ print("make theory")
 theory = Theory(T_draw,S_draw)
 print("loop")
 for model in theory.expand(1):
+    print(model)
     result = make_json(S_draw, model)
 
 
@@ -74,6 +94,14 @@ for model in theory.expand(1):
       f.write(result)
     with open("out/visualisation.json") as f:
       print(f.read())
+print("succesfully written")
+
+#os.system("python3 -m http.server 8084 &")
+#os.system("firefox http:localhost:8080/index.html")
+
+
+
 
 # run http server http-server &
 # run firefox http:localhost:8080/index.html
+

@@ -1,0 +1,151 @@
+vocabulary V{
+    type Colour≜ {Blue, Red, Green, Yellow}
+    type Node  ≜ {A, B, C}              // a country on the map
+    edge: Node ⨯ Node → 𝔹    // Country X and Y are neighbors
+    colouring: Node → Colour // The color of X is Y
+}
+
+theory T:V{
+    ∀ n, m ∈ Node: edge(n, m) ⇒ colouring(n) ≠ colouring(m).
+}
+
+structure S:V{
+
+    edge ≜ {(A, B), (B,C)}.
+}
+
+
+
+
+
+
+//het probleem hier is dat partiele functies precies moeilijk doen.
+vocabulary V_draw{
+    type shape ≜  constructed from {circ, rect, text, link, link_directed, img}
+    type key ⊆  ℤ
+    type color ≜ constructed from {black, blue, brown,red,green, slateGrey, snow, springGreen,
+    steelBlue, tan, teal, thistle, tomato, turquoise, violet, wheat,white,
+    whiteSmoke, yellow, yellowGreen}
+
+    type width ⊆ ℤ
+    type height ⊆ ℤ
+    //type order ⊆ ℤ
+    d3_width : ()→width
+    d3_height: ()→height
+    d3_type :partial key → shape
+    d3_x : partial key → width
+    d3_y : partial key → height
+    d3_color : partial key → color
+    //d3_order : partial key → order
+    d3_circ_r : partial key → width
+    d3_rect_width : partial key → width
+    d3_rect_height : partial key → height
+
+    d3_link_width : partial key → width
+    d3_link_from : partial key → key
+    d3_link_to : partial key → key
+    //d3_node(key)
+    //d3_isFixed(key)
+}
+
+vocabulary V_combined{
+    import V_draw
+    import V
+
+    node_to_key : Node→key
+    edge_to_key : partial Node ⨯ Node→key
+
+    colour_to_color: Colour→color
+
+
+
+}
+
+theory T_draw:V_combined{
+
+    //// het "stuk dat eigenlijk in de aparte theorie moet zitten" gedeelte
+    {
+        edge(A,B).
+        edge(B,C).
+    }
+    ∀ n, m ∈ Node: edge(n, m) ⇒ colouring(n) ≠ colouring(m).
+
+
+
+
+    ////toKey functions
+
+    //toKey function domain is edge
+    ∀x,y ∈ Node: dom_edge_to_key(x,y) ⇔ edge(x,y).
+
+
+    //∀n ∈ Node:dom_d3_type(node_to_key(n)) ∧ d3_type(node_to_key(n))=circ.
+    //∀n,n1 ∈ Node:dom_d3_type(edge_to_key(n,n1)) ∧ d3_type(edge_to_key(n,n1))=link.
+
+    //injectivity of the functions
+    ∀n1,n2 ∈ Node: node_to_key(n1)=node_to_key(n2) ⇒ n1=n2.
+    ∀n1,n2,n3,n4 ∈ Node:dom_edge_to_key(n1,n2) ∧ dom_edge_to_key(n3,n4) ∧ edge_to_key(n1,n2) = edge_to_key(n3,n4) ⇒ n1=n3 ∧ n2=n4.
+
+    //disjunct images
+    ∀n,n1,n2 ∈ Node: dom_edge_to_key(n1,n2) ⇒ node_to_key(n) ≠ edge_to_key(n1,n2).
+
+
+
+    //definition color
+    {
+        colour_to_color(Blue)=blue.
+        colour_to_color(Red)=red.
+        colour_to_color(Yellow)=yellow.
+        colour_to_color(Green)=green.
+    }
+
+
+    //alle cirkels zijn 40 groot
+    ∀c ∈ dom_d3_type: d3_type(c)=circ ⇒ dom_d3_circ_r(c) ∧ d3_circ_r(c)=40.
+
+
+    //de nodes worden cirkels
+    ∀n ∈ Node: dom_d3_type(node_to_key(n)) ∧ (d3_type(node_to_key(n)) = circ).
+
+    //de edges worden links(beter als inductieve definitie maar partieelfunctie)
+    ∀n1,n2 ∈ Node: edge(n1,n2) ⇒ dom_edge_to_key(n1,n2) ∧  dom_d3_type(edge_to_key(n1,n2)) ∧ d3_type(edge_to_key(n1,n2)) = link.
+
+
+    //nodes coordinaten
+
+    ∀n ∈ Node: dom_d3_x(node_to_key(n)) ∧ d3_x(node_to_key(n))=80⨯node_to_key(n).
+    ∀n ∈ Node: dom_d3_y(node_to_key(n)) ∧ d3_y(node_to_key(n))=50.
+
+
+
+
+    //nodes kleuren
+    ∀n ∈ Node: dom_d3_color(node_to_key(n)) & d3_color(node_to_key(n))=colour_to_color(colouring(n)).
+
+
+
+    //links linken de juiste nodes
+    ∀n1,n2 ∈ Node: edge(n1,n2) ⇒ dom_edge_to_key(n1,n2) ∧ dom_d3_link_from(edge_to_key(n1,n2)) ∧ dom_d3_link_to(edge_to_key(n1,n2)) ∧ d3_link_from(edge_to_key(n1,n2))=node_to_key(n1) ∧ d3_link_to(edge_to_key(n1,n2))=node_to_key(n2).
+
+    d3_width()=800.
+    d3_height()=300.
+
+
+
+}
+
+structure S_draw:V_draw{
+    width ≜ {1..1000}.
+    height ≜ {1..1000}.
+    key ≜ {1..5}.
+
+
+
+    //Colour ≜ {blue, red, green, yellow}.
+}
+
+procedure main(){
+
+    //pretty_print(model_expand(T, S))
+    pretty_print(model_expand(T_draw, S_draw))
+}

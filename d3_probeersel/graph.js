@@ -38,7 +38,9 @@ async function draw(){
   .attr("y1", d => id_to_circle.get(d.from)?.cy ?? 0)
   .attr("x2", d => id_to_circle.get(d.to)?.cx ?? 0)
   .attr("y2", d => id_to_circle.get(d.to)?.cy ?? 0)
-  .attr("stroke", d => d.color ?? "black");
+  .attr("stroke", d => d.color ?? "black")
+  .attr('stroke-width',5)
+  ;
 
   
   svg.selectAll("circle")
@@ -47,7 +49,8 @@ async function draw(){
       .attr("cx", d => d.cx)
       .attr("cy", d => d.cy)
       .attr("r", d => d.r)
-      .attr("fill",d=>d.color);
+      .attr("fill",d=>d.color)
+      .attr('stroke','black');
 
 
   
@@ -59,6 +62,7 @@ async function draw(){
       .attr('width', d=>d.width)
       .attr('height', d=>d.height)
       .attr('fill', d=>d.color)
+      .attr('stroke','black');
 }
 
 
