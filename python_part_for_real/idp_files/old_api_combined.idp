@@ -113,8 +113,8 @@ theory T_draw:V_combined{
 
     //nodes coordinaten
 
-    ∀n ∈ Node: dom_d3_x(node_to_key(n)) ∧ d3_x(node_to_key(n))=80⨯node_to_key(n).
-    ∀n ∈ Node: dom_d3_y(node_to_key(n)) ∧ d3_y(node_to_key(n))=50.
+    ∀n ∈ Node: dom_d3_x(node_to_key(n)) ∧ d3_x(node_to_key(n))=160⨯node_to_key(n)-100.
+    ∀n ∈ Node:  dom_d3_y(node_to_key(n)) ∧ d3_y(node_to_key(n))=50.
 
 
 

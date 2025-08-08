@@ -2,7 +2,7 @@ from idp_engine import Theory, IDP
 from idp_engine.Run import model_expand, pretty_print
 import json
 import os
-
+import time
 """
 function that returns the elements that are in the assignments that starts
 
@@ -68,9 +68,21 @@ def make_json(structure,assignments):
     d3_dict = to_dictionary(structure,assignments)
     return json.dumps(d3_dict)
 
-
-
-
+def show_file():
+    port = "8085"
+    # Start the server in the background and capture its PID
+    os.system(f"python3 -m http.server {port} & echo $! > server_pid.txt")
+    # Give it a moment to start
+    time.sleep(1)
+    # Open Firefox to the html
+    os.system(f"firefox http://localhost:{port}/out/index.html &")
+    # Let the server run for 10 seconds
+    time.sleep(2)
+    # Kill the server
+    with open("server_pid.txt") as f:
+        pid = f.read().strip()
+    os.system(f"kill {pid}")
+    os.remove("server_pid.txt")
 
 
 print("imports finished")
@@ -82,6 +94,7 @@ T_draw,V_draw,S_draw = Kb.get_blocks("T_draw,V_draw,S_draw")
 # for m in mx:
 #     print(m)
 #
+
 print("make theory")
 theory = Theory(T_draw,S_draw)
 print("loop")
@@ -94,10 +107,9 @@ for model in theory.expand(1):
       f.write(result)
     with open("out/visualisation.json") as f:
       print(f.read())
-print("succesfully written")
+    print("succesfully written")
+    show_file()
 
-#os.system("python3 -m http.server 8084 &")
-#os.system("firefox http:localhost:8080/index.html")
 
 
 
